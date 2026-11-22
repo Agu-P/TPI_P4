@@ -68,7 +68,7 @@ export const DetallePedidoModal: React.FC<DetallePedidoModalProps> = ({
           </div>
         )}
 
-        {/* Tabla de Productos / Líneas Inmutables */}
+        {/* Tabla de Productos */}
         <div>
           <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
             Productos en el pedido

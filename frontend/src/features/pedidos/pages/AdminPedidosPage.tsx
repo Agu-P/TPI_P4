@@ -34,7 +34,7 @@ export const AdminPedidosPage: React.FC = () => {
             Gestión de Pedidos
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Visualiza todos los pedidos y avanza o cancela según la máquina de estados
+            Visualiza todos los pedidos y avanza o cancela según los estados
           </p>
         </div>
 

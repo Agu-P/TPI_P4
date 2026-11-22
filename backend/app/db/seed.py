@@ -10,7 +10,7 @@ from app.modules.productos.models import Producto
 def seed_database():
     create_all_tables()
     with Session(engine) as session:
-        # 1. Admin user
+        # Admin user
         admin = session.exec(select(Usuario).where(Usuario.username == "admin")).first()
         if not admin:
             admin = Usuario(
@@ -27,7 +27,7 @@ def seed_database():
         else:
             print("Usuario admin ya existe.")
 
-        # 1.1 Usuario cliente de prueba
+        # Usuario cliente de prueba
         cliente = session.exec(select(Usuario).where(Usuario.username == "cliente")).first()
         if not cliente:
             cliente = Usuario(
@@ -46,7 +46,7 @@ def seed_database():
 
         session.commit()
 
-        # 2. Categorías (al menos 3)
+        # Categorías
         categorias_data = [
             {"nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales de carne vacuna y pollo"},
             {"nombre": "Pizzas", "descripcion": "Pizzas a la piedra con masa madre e ingredientes frescos"},
@@ -73,7 +73,7 @@ def seed_database():
 
         session.commit()
 
-        # 3. Productos (al menos 8 con stock)
+        # Productos 
         productos_data = [
             {
                 "nombre": "Hamburguesa Clásica Doble",
@@ -85,7 +85,7 @@ def seed_database():
                 "categoria": "Hamburguesas",
             },
             {
-                "nombre": "Hamburguesa Bacon & Blue",
+                "nombre": "Hamburguesa Bacon",
                 "descripcion": "Medallón 200g, panceta crocante, queso azul, cebolla caramelizada y rúcula",
                 "precio_base": 7800.0,
                 "imagen_url": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&auto=format&fit=crop&q=80",
@@ -115,7 +115,7 @@ def seed_database():
                 "nombre": "Docena de Empanadas de Carne",
                 "descripcion": "Carne cortada a cuchillo con cebolla, huevo duro, morrón y especias criollas",
                 "precio_base": 11000.0,
-                "imagen_url": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&auto=format&fit=crop&q=80",
+                "imagen_url": "https://images.unsplash.com/photo-1624128082323-beb6b8b508db?q=80&w=765&auto=format&fit=crop&q=80",
                 "stock": 30,
                 "disponible": True,
                 "categoria": "Empanadas",
@@ -124,7 +124,7 @@ def seed_database():
                 "nombre": "Docena de Empanadas Jamón y Queso",
                 "descripcion": "Jamón cocido de primera calidad y muzzarella fundida en masa hojaldrada",
                 "precio_base": 10500.0,
-                "imagen_url": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=600&auto=format&fit=crop&q=80",
+                "imagen_url": "https://images.unsplash.com/photo-1681389158413-53d26d1604de?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
                 "stock": 25,
                 "disponible": True,
                 "categoria": "Empanadas",
@@ -132,15 +132,15 @@ def seed_database():
             {
                 "nombre": "Cerveza Artesanal IPA 500ml",
                 "descripcion": "India Pale Ale lupulada y refrescante, notas cítricas",
-                "precio_base": 3200.0,
+                "precio_base": 5200.0,
                 "imagen_url": "https://images.unsplash.com/photo-1608270586620-248524c67de9?w=600&auto=format&fit=crop&q=80",
                 "stock": 50,
                 "disponible": True,
                 "categoria": "Bebidas",
             },
             {
-                "nombre": "Gaseosa Cola 1.5L",
-                "descripcion": "Botella clásica de gaseosa cola retornable y bien helada",
+                "nombre": "Gaseosa Coca Cola 1.5L",
+                "descripcion": "Botella de gaseosa retornable y bien helada",
                 "precio_base": 2400.0,
                 "imagen_url": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=600&auto=format&fit=crop&q=80",
                 "stock": 40,
@@ -167,6 +167,9 @@ def seed_database():
                 print(f"Producto creado: {prod.nombre}")
             else:
                 print(f"Producto ya existe: {prod.nombre}")
+                if prod.imagen_url != p_info["imagen_url"]:
+                    prod.imagen_url = p_info["imagen_url"]
+                    print(f"Imagen actualizada: {prod.nombre}")
 
         session.commit()
         print("Seed completado exitosamente.")

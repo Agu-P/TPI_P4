@@ -136,7 +136,7 @@ export const TablaPedidos: React.FC<TablaPedidosProps> = ({ pedidos, esAdmin = f
               Detalle
             </Button>
 
-            {/* Avanzar pedido (Admin) */}
+            {/* Avanzar pedido */}
             {puedeAvanzar && (
               <Button
                 variant="primary"

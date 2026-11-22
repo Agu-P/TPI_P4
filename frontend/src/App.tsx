@@ -6,7 +6,6 @@ export const App: React.FC = () => {
   const { checkSession } = useAuthStore();
 
   useEffect(() => {
-    // La única llamada en useEffect es checkSession al montar la aplicación
     checkSession();
   }, [checkSession]);
 

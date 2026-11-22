@@ -19,12 +19,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) 
     );
   }
 
-  // Sin sesión -> redirige a login
+  // Sin sesión 
   if (!usuario) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Sin rol requerido -> redirige a unauthorized
+  // Sin rol requerido 
   if (allowedRoles && !allowedRoles.includes(usuario.role)) {
     return <Navigate to="/unauthorized" replace />;
   }

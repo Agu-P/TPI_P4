@@ -106,7 +106,7 @@ export const CarritoPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Resumen & CTA */}
+        {/* Resumen */}
         <div>
           <Card className="p-6 sticky top-24 space-y-5">
             <h3 className="font-bold text-lg text-slate-900 pb-3 border-b border-slate-100">

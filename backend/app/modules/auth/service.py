@@ -35,6 +35,8 @@ class AuthService:
                 disabled=False
             )
             uow.usuarios.add(user)
+            uow.session.flush()
+            uow.session.refresh(user)
             return UserPublic.model_validate(user)
 
     def authenticate(self, username: str, password: str) -> UserPublic:

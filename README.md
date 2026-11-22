@@ -1,21 +1,21 @@
-# 🍔 Food Store - Aplicación Web Completa
+#  Food Store - Aplicación Web 
 
-Sistema integral de gestión y venta de comidas para **Food Store**, desarrollado con arquitectura en capas desacoplada: **Backend en FastAPI + SQLModel** con patrón **Unit of Work** y autenticación JWT mediante cookie `HttpOnly`, y **Frontend en React + TypeScript (Vite + Tailwind CSS 4)** con arquitectura modular por **features**, **TanStack Query** para el estado del servidor y **Zustand** para el estado del cliente.
+Sistema de gestión y venta de comidas, desarrollado con arquitectura en capas desacoplada: **Backend en FastAPI + SQLModel** con patrón **Unit of Work** y autenticación JWT mediante cookie `HttpOnly`, y **Frontend en React + TypeScript (Vite + Tailwind CSS 4)** con arquitectura modular por **features**, **TanStack Query** para el estado del servidor y **Zustand** para el estado del cliente.
 
 ---
 
-## 📌 Requisitos Previos
+## Requisitos Previos
 
-- **Python**: 3.11 a 3.14 (con soporte para SQLModel, bcrypt y passlib).
+- **Python**: 3.11 a 3.13 
 - **Node.js**: v20.19 o superior.
 - **pnpm**: v9 o superior (`pnpm -v`).
 - **Git**
 
 ---
 
-## 🏛️ Arquitectura del Sistema
+## Arquitectura del Sistema
 
-El sistema implementa una separación estricta de responsabilidades en dos proyectos independientes:
+El sistema implementa una separación de responsabilidades en dos proyectos independientes:
 
 ### Backend (`/backend`)
 - **Arquitectura en Capas**: Router ➔ Service ➔ Unit of Work ➔ Repository ➔ Model.
@@ -41,27 +41,6 @@ El sistema implementa una separación estricta de responsabilidades en dos proye
 
 ---
 
-## ⚙️ Variables de Entorno
-
-### Backend (`backend/.env`)
-Copia `backend/.env.example` a `backend/.env`:
-```env
-DATABASE_URL=sqlite:///./foodstore.db
-SECRET_KEY=cambiar-esta-clave-de-al-menos-32-caracteres-super-segura-12345
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-FRONTEND_ORIGIN=http://localhost:5173
-```
-> **Nota para PostgreSQL**: Si deseas utilizar PostgreSQL en producción, solo cambia `DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/foodstore_db`.
-
-### Frontend (`frontend/.env`)
-Copia `frontend/.env.example` a `frontend/.env`:
-```env
-VITE_API_URL=http://localhost:8000/api/v1
-```
-
----
-
 ## 🚀 Instalación y Puesta en Marcha
 
 ### 1. Backend
@@ -71,7 +50,7 @@ Desde la raíz del proyecto o entrando a `/backend`:
 # Crear y activar entorno virtual
 python -m venv .venv
 
-# En Windows PowerShell:
+# En Windows:
 .\.venv\Scripts\Activate.ps1
 # En Linux / macOS:
 # source .venv/bin/activate
@@ -79,11 +58,11 @@ python -m venv .venv
 # Instalar dependencias fijadas
 pip install -r backend/requirements.txt
 
-# Ejecutar el Seed Idempotente (crea tablas, admin, cliente, categorías y productos con stock)
+# Ejecutar el Seed 
 cd backend
 python -m app.db.seed
 
-# Iniciar servidor FastAPI con recarga en vivo
+# Iniciar servidor FastAPI 
 uvicorn app.main:app --reload --port 8000
 ```
 
@@ -109,30 +88,19 @@ pnpm dev
 
 ---
 
-## 👥 Usuarios del Seed
-
-El comando `python -m app.db.seed` es **idempotente** e inicializa los siguientes usuarios:
+## Usuarios del Seed
 
 | Rol | Usuario | Contraseña | Permisos |
 |---|---|---|---|
 | **Admin** | `admin` | `Admin1234!` | CRUD de categorías y productos, ajuste rápido de stock/disponibilidad, gestión y avance de pedidos, métricas del resumen del negocio, activación/desactivación de usuarios. |
 | **Cliente** | `cliente` | `Cliente1234!` | Navegación del catálogo, armado de carrito, checkout con validación de dirección y pago, consulta de pedidos propios y cancelación en estado `PENDIENTE`. |
 
-*También es posible registrar nuevos clientes libremente desde la pantalla de Registro pública (`/register`).*
-
 ---
 
-## 🧪 Pruebas Automatizadas del Backend
+## URL del Repositorio
 
-Se incluye una suite de integración completa que verifica todas las reglas de negocio, transacciones con Unit of Work, restitución de stock, códigos HTTP (200, 201, 204, 400, 401, 403, 404, 409) y máquina de estados:
+- **Repositorio**: `https://github.com/Agu-P/TPI_Prog4`
 
-```bash
-cd backend
-python test_api.py
-```
+## Link del video
 
----
-
-## 🔗 URL del Repositorio
-
-- **Repositorio**: `https://github.com/usuario/food-store-tpi`
+- **Video**: `https://youtu.be/K05R5gHzNLg`

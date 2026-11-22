@@ -36,7 +36,6 @@ export const useAuthStore = create<AuthState>()(
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         });
 
-        // Al obtener 200, consultamos inmediatamente el perfil con la cookie
         const res = await axiosInstance.get<Usuario>('/auth/me');
         set({ usuario: res.data, cargando: false });
       },
@@ -45,7 +44,6 @@ export const useAuthStore = create<AuthState>()(
         try {
           await axiosInstance.post('/auth/logout');
         } catch {
-          // Si falla por red, limpiamos de todos modos
         } finally {
           set({ usuario: null, cargando: false });
         }

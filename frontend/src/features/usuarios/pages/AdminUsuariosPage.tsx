@@ -138,7 +138,6 @@ export const AdminUsuariosPage: React.FC = () => {
                 Activar
               </Button>
             ) : (
-              /* REGLA: El botón Desactivar no se muestra en la fila del usuario de la sesión */
               !esUsuarioSesion && (
                 <Button
                   variant="danger"

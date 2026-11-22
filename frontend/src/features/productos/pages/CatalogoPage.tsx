@@ -46,12 +46,9 @@ export const CatalogoPage: React.FC = () => {
 
   return (
     <div className="space-y-8 pb-12">
-      {/* Hero / Banner */}
+      {/* Banner */}
       <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-amber-600 via-amber-500 to-orange-500 text-white p-8 md:p-12 shadow-md">
         <div className="relative z-10 max-w-2xl space-y-3">
-          <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-xs text-white text-xs font-semibold rounded-full uppercase tracking-wider">
-            Sabor Auténtico & Entrega Rápida
-          </span>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
             Descubre Nuestro Menú Exclusivo
           </h1>

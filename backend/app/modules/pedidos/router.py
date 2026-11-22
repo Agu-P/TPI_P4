@@ -60,7 +60,6 @@ def list_pedidos(
     )
 
 
-# GET /resumen se declara antes de /{id} para que no sea capturado como ruta dinámica
 @router.get("/resumen", response_model=ResumenPedidos)
 def get_resumen(
     service: PedidoService = Depends(get_pedido_service),

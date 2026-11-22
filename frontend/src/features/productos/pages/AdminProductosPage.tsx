@@ -29,8 +29,7 @@ import { EstadoError } from '../../../shared/components/EstadoError';
 const columnHelper = createColumnHelper<Producto>();
 
 export const AdminProductosPage: React.FC = () => {
-  // El panel admin pide limit=100 para paginar en cliente con TanStack Table
-  const { data: productosData, isLoading, isError, error, refetch } = useProductos({
+   const { data: productosData, isLoading, isError, error, refetch } = useProductos({
     skip: 0,
     limit: 100,
   });

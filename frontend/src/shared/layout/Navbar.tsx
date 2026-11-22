@@ -64,15 +64,15 @@ export const Navbar: React.FC = () => {
 
             {usuario && (
               <Link
-                to="/mis-pedidos"
+                to={usuario.role === 'admin' ? '/admin/pedidos' : '/mis-pedidos'}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive('/mis-pedidos')
+                  isActive(usuario.role === 'admin' ? '/admin/pedidos' : '/mis-pedidos')
                     ? 'bg-amber-50 text-amber-700'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`}
               >
                 <Receipt className="w-4 h-4" />
-                Mis Pedidos
+                {usuario.role === 'admin' ? 'Gestión pedidos' : 'Mis pedidos'}
               </Link>
             )}
 
@@ -101,12 +101,6 @@ export const Navbar: React.FC = () => {
                       Resumen General
                     </Link>
                     <Link
-                      to="/admin/pedidos"
-                      className="block px-4 py-2 text-slate-700 hover:bg-slate-50 hover:text-amber-600 font-medium"
-                    >
-                      Gestión de Pedidos
-                    </Link>
-                    <Link
                       to="/admin/productos"
                       className="block px-4 py-2 text-slate-700 hover:bg-slate-50 hover:text-amber-600 font-medium"
                     >
@@ -130,7 +124,7 @@ export const Navbar: React.FC = () => {
             )}
           </nav>
 
-          {/* User & Cart controls */}
+          {/* User - Cart controls */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Cart button */}
             <Link
@@ -182,7 +176,7 @@ export const Navbar: React.FC = () => {
               </div>
             )}
 
-            {/* Mobile menu trigger */}
+            {/* Mobile menu */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
@@ -205,11 +199,11 @@ export const Navbar: React.FC = () => {
           </Link>
           {usuario && (
             <Link
-              to="/mis-pedidos"
+              to={usuario.role === 'admin' ? '/admin/pedidos' : '/mis-pedidos'}
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
             >
-              Mis Pedidos
+              {usuario.role === 'admin' ? 'Gestión pedidos' : 'Mis pedidos'}
             </Link>
           )}
           {usuario?.role === 'admin' && (
@@ -223,13 +217,6 @@ export const Navbar: React.FC = () => {
                 className="block px-3 py-1.5 rounded-md text-sm text-slate-700 hover:bg-slate-100"
               >
                 Resumen
-              </Link>
-              <Link
-                to="/admin/pedidos"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-1.5 rounded-md text-sm text-slate-700 hover:bg-slate-100"
-              >
-                Pedidos
               </Link>
               <Link
                 to="/admin/productos"
