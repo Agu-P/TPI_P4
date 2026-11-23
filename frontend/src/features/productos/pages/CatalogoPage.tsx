@@ -98,6 +98,16 @@ export const CatalogoPage: React.FC = () => {
               {cat.nombre}
             </button>
           ))}
+          <button
+            onClick={() => handleCategoriaSelect(-1)}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+              selectedCategoria === -1
+                ? 'bg-slate-700 text-white shadow-xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            Sin categoría
+          </button>
         </div>
       </div>
 

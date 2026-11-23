@@ -14,6 +14,7 @@ class CategoriaCreate(CategoriaBase):
 class CategoriaUpdate(SQLModel):
     nombre: Optional[str] = Field(default=None, min_length=2, max_length=100)
     descripcion: Optional[str] = Field(default=None)
+    producto_ids: list[int] = Field(default_factory=list)
 
 
 class CategoriaRead(CategoriaBase):

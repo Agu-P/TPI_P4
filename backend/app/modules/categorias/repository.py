@@ -9,6 +9,13 @@ class CategoriaRepository(BaseRepository[Categoria]):
         super().__init__(Categoria, session)
 
     def get_by_nombre(self, nombre: str) -> Optional[Categoria]:
+        statement = select(Categoria).where(
+            Categoria.nombre == nombre,
+            Categoria.activo == True
+        )
+        return self.session.exec(statement).first()
+
+    def get_by_nombre_incluyendo_inactivas(self, nombre: str) -> Optional[Categoria]:
         statement = select(Categoria).where(Categoria.nombre == nombre)
         return self.session.exec(statement).first()
 

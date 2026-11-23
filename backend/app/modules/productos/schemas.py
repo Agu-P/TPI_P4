@@ -10,7 +10,7 @@ class ProductoBase(SQLModel):
     imagen_url: Optional[str] = Field(default=None)
     stock: int = Field(default=0, ge=0)
     disponible: bool = Field(default=True)
-    categoria_id: int
+    categoria_id: Optional[int] = None
 
 
 class ProductoCreate(ProductoBase):
@@ -41,7 +41,7 @@ class ProductoRead(SQLModel):
     stock: int
     disponible: bool
     activo: bool
-    categoria_id: int
+    categoria_id: Optional[int] = None
     categoria: Optional[CategoriaRead] = None
 
 

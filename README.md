@@ -41,7 +41,34 @@ El sistema implementa una separación de responsabilidades en dos proyectos inde
 
 ---
 
-## 🚀 Instalación y Puesta en Marcha
+## Instalación y Puesta en Marcha
+
+### Configuración de variables de entorno
+
+Antes de iniciar el backend, hay que crear los archivos `.env` a partir de los ejemplos incluidos en el proyecto:
+
+```bash
+# Desde la raíz del proyecto
+copy backend\.env.example backend\.env
+copy frontend\.env.example frontend\.env
+```
+
+
+Variables del backend:
+
+| Variable | Obligatoria | Descripción |
+|---|---|---|
+| `DATABASE_URL` | Sí | URL de conexión SQLAlchemy/SQLModel. El ejemplo usa SQLite; también puede configurarse una conexión PostgreSQL. |
+| `SECRET_KEY` | Sí | Clave usada para firmar y validar los tokens JWT. Debe reemplazarse por un valor largo y aleatorio. |
+
+
+Para cambiar `SECRET_KEY` en Windows puede generarse una clave con:
+
+```powershell
+python -c "import secrets; print(secrets.token_urlsafe(48))"
+```
+
+Luego, copie el resultado como valor de `SECRET_KEY` en `backend/.env`.
 
 ### 1. Backend
 Desde la raíz del proyecto o entrando a `/backend`:
@@ -97,10 +124,3 @@ pnpm dev
 
 ---
 
-## URL del Repositorio
-
-- **Repositorio**: `https://github.com/Agu-P/TPI_Prog4`
-
-## Link del video
-
-- **Video**: `https://youtu.be/K05R5gHzNLg`

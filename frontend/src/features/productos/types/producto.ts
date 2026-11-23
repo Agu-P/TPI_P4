@@ -9,7 +9,7 @@ export interface Producto {
   stock: number;
   disponible: boolean;
   activo: boolean;
-  categoria_id: number;
+  categoria_id: number | null;
   categoria?: Categoria | null;
 }
 
@@ -20,7 +20,7 @@ export interface ProductoCreate {
   imagen_url?: string | null;
   stock: number;
   disponible: boolean;
-  categoria_id: number;
+  categoria_id?: number | null;
 }
 
 export interface ProductoUpdate {

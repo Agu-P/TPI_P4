@@ -56,7 +56,7 @@ export const AdminProductosPage: React.FC = () => {
       imagen_url: editingProducto?.imagen_url || '',
       stock: editingProducto?.stock || 0,
       disponible: editingProducto?.disponible ?? true,
-      categoria_id: editingProducto?.categoria_id || (categorias?.[0]?.id ?? 1),
+      categoria_id: editingProducto?.categoria_id ?? (categorias?.[0]?.id ?? ''),
     },
     onSubmit: async ({ value }) => {
       setFormError(null);
@@ -71,7 +71,7 @@ export const AdminProductosPage: React.FC = () => {
               imagen_url: value.imagen_url || null,
               stock: Number(value.stock),
               disponible: value.disponible,
-              categoria_id: Number(value.categoria_id),
+              categoria_id: value.categoria_id === '' ? null : Number(value.categoria_id),
             },
           });
         } else {
@@ -82,7 +82,7 @@ export const AdminProductosPage: React.FC = () => {
             imagen_url: value.imagen_url || null,
             stock: Number(value.stock),
             disponible: value.disponible,
-            categoria_id: Number(value.categoria_id),
+            categoria_id: value.categoria_id === '' ? null : Number(value.categoria_id),
           });
         }
         setModalAbmOpen(false);
@@ -106,7 +106,7 @@ export const AdminProductosPage: React.FC = () => {
       imagen_url: '',
       stock: 0,
       disponible: true,
-      categoria_id: categorias?.[0]?.id ?? 1,
+      categoria_id: categorias?.[0]?.id ?? '',
     });
     setFormError(null);
     setModalAbmOpen(true);
@@ -121,7 +121,7 @@ export const AdminProductosPage: React.FC = () => {
       imagen_url: prod.imagen_url || '',
       stock: prod.stock,
       disponible: prod.disponible,
-      categoria_id: prod.categoria_id,
+      categoria_id: prod.categoria_id ?? '',
     });
     setFormError(null);
     setModalAbmOpen(true);
@@ -188,7 +188,7 @@ export const AdminProductosPage: React.FC = () => {
             <div>
               <span className="font-semibold text-slate-800 block">{prod.nombre}</span>
               <span className="text-xs text-slate-400">
-                {prod.categoria?.nombre || `Cat #${prod.categoria_id}`}
+                {prod.categoria?.nombre || 'Sin categoría'}
               </span>
             </div>
           </div>
@@ -450,8 +450,9 @@ export const AdminProductosPage: React.FC = () => {
                   <select
                     className="w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={field.state.value}
-                    onChange={(e) => field.handleChange(Number(e.target.value))}
+                    onChange={(e) => field.handleChange(e.target.value)}
                   >
+                    <option value="">Sin categoría</option>
                     {categorias?.map((c) => (
                       <option key={c.id} value={c.id}>
                         {c.nombre}

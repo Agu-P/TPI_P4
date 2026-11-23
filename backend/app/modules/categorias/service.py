@@ -1,5 +1,7 @@
 from typing import Optional
+from sqlmodel import select
 from app.modules.categorias.models import Categoria
+from app.modules.productos.models import Producto
 from app.modules.categorias.schemas import CategoriaCreate, CategoriaUpdate, CategoriaRead
 from app.modules.categorias.unit_of_work import CategoriaUnitOfWork
 
@@ -30,9 +32,16 @@ class CategoriaService:
 
     def create(self, data: CategoriaCreate) -> CategoriaRead:
         with self.uow as uow:
-            existente = uow.categorias.get_by_nombre(data.nombre)
+            existente = uow.categorias.get_by_nombre_incluyendo_inactivas(data.nombre)
             if existente:
-                raise NombreDuplicado(f"Ya existe una categoría con el nombre '{data.nombre}'")
+                if existente.activo:
+                    raise NombreDuplicado(f"Ya existe una categoría con el nombre '{data.nombre}'")
+                existente.activo = True
+                existente.descripcion = data.descripcion
+                uow.categorias.add(existente)
+                uow.session.flush()
+                uow.session.refresh(existente)
+                return CategoriaRead.model_validate(existente)
             cat = Categoria(
                 nombre=data.nombre,
                 descripcion=data.descripcion,
@@ -58,6 +67,19 @@ class CategoriaService:
             if data.descripcion is not None:
                 cat.descripcion = data.descripcion
 
+            if data.producto_ids:
+                productos = uow.session.exec(
+                    select(Producto).where(
+                        Producto.id.in_(data.producto_ids),
+                        Producto.activo == True,
+                        Producto.disponible == True,
+                        Producto.categoria_id == None
+                    )
+                ).all()
+                for producto in productos:
+                    producto.categoria_id = cat.id
+                    uow.session.add(producto)
+
             uow.categorias.add(cat)
             uow.session.flush()
             uow.session.refresh(cat)
@@ -68,5 +90,12 @@ class CategoriaService:
             cat = uow.categorias.get_by_id(cat_id)
             if not cat or not cat.activo:
                 raise CategoriaNoEncontrada(f"Categoría {cat_id} no encontrada")
-            cat.activo = False
-            uow.categorias.add(cat)
+
+            productos = uow.session.exec(
+                select(Producto).where(Producto.categoria_id == cat_id)
+            ).all()
+            for producto in productos:
+                producto.categoria_id = None
+                uow.session.add(producto)
+
+            uow.session.delete(cat)

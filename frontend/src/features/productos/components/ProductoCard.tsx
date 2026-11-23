@@ -51,9 +51,13 @@ export const ProductoCard: React.FC<ProductoCardProps> = ({ producto }) => {
         )}
 
         {/* Categoría Badge */}
-        {producto.categoria && (
+        {producto.categoria ? (
           <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs text-slate-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow-xs">
             {producto.categoria.nombre}
+          </span>
+        ) : (
+          <span className="absolute top-3 left-3 bg-slate-700/90 backdrop-blur-xs text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-xs">
+            Sin categoría
           </span>
         )}
 

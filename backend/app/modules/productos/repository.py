@@ -30,8 +30,12 @@ class ProductoRepository(BaseRepository[Producto]):
             count_query = count_query.where(Producto.nombre.ilike(ilike_pattern))
 
         if categoria_id is not None:
-            query = query.where(Producto.categoria_id == categoria_id)
-            count_query = count_query.where(Producto.categoria_id == categoria_id)
+            if categoria_id == -1:
+                query = query.where(Producto.categoria_id == None)
+                count_query = count_query.where(Producto.categoria_id == None)
+            else:
+                query = query.where(Producto.categoria_id == categoria_id)
+                count_query = count_query.where(Producto.categoria_id == categoria_id)
 
         if disponible is not None:
             query = query.where(Producto.disponible == disponible)

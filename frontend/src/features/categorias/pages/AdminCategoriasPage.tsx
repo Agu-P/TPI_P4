@@ -22,6 +22,7 @@ import { Input } from '../../../shared/ui/Input';
 import { Skeleton } from '../../../shared/components/Skeleton';
 import { EstadoVacio } from '../../../shared/components/EstadoVacio';
 import { EstadoError } from '../../../shared/components/EstadoError';
+import { useProductos } from '../../productos/hooks/useProductos';
 
 const columnHelper = createColumnHelper<Categoria>();
 
@@ -30,6 +31,12 @@ export const AdminCategoriasPage: React.FC = () => {
   const createMutation = useCreateCategoria();
   const updateMutation = useUpdateCategoria();
   const deleteMutation = useDeleteCategoria();
+  const { data: productosSinCategoria } = useProductos({
+    skip: 0,
+    limit: 100,
+    categoria_id: -1,
+    disponible: true,
+  });
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(null);
@@ -39,6 +46,7 @@ export const AdminCategoriasPage: React.FC = () => {
     defaultValues: {
       nombre: editingCategoria?.nombre || '',
       descripcion: editingCategoria?.descripcion || '',
+      producto_ids: [] as number[],
     },
     onSubmit: async ({ value }) => {
       setFormError(null);
@@ -49,6 +57,7 @@ export const AdminCategoriasPage: React.FC = () => {
             data: {
               nombre: value.nombre,
               descripcion: value.descripcion || null,
+              producto_ids: value.producto_ids,
             },
           });
         } else {
@@ -67,7 +76,7 @@ export const AdminCategoriasPage: React.FC = () => {
 
   const handleOpenCreate = () => {
     setEditingCategoria(null);
-    form.reset({ nombre: '', descripcion: '' });
+    form.reset({ nombre: '', descripcion: '', producto_ids: [] });
     setFormError(null);
     setModalOpen(true);
   };
@@ -77,13 +86,14 @@ export const AdminCategoriasPage: React.FC = () => {
     form.reset({
       nombre: categoria.nombre,
       descripcion: categoria.descripcion || '',
+      producto_ids: [],
     });
     setFormError(null);
     setModalOpen(true);
   };
 
   const handleDelete = async (id: number) => {
-    if (confirm('¿Dar de baja esta categoría? Sus productos continuarán asociados pero la categoría quedará inactiva.')) {
+    if (confirm('¿Eliminar esta categoría? Sus productos quedarán como "Sin categoría" y podrán reasignarse.')) {
       try {
         await deleteMutation.mutateAsync(id);
       } catch (err) {
@@ -299,6 +309,49 @@ export const AdminCategoriasPage: React.FC = () => {
               </div>
             )}
           </form.Field>
+
+          {editingCategoria && (
+            <form.Field name="producto_ids">
+              {(field) => (
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Productos disponibles sin categoría
+                  </label>
+                  {productosSinCategoria?.items.length ? (
+                    <div className="max-h-48 overflow-y-auto rounded-lg border border-slate-200 divide-y divide-slate-100">
+                      {productosSinCategoria.items.map((producto) => {
+                        const selected = field.state.value.includes(producto.id);
+                        return (
+                          <label
+                            key={producto.id}
+                            className="flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selected}
+                              onChange={(event) => {
+                                field.handleChange(
+                                  event.target.checked
+                                    ? [...field.state.value, producto.id]
+                                    : field.state.value.filter((id) => id !== producto.id)
+                                );
+                              }}
+                              className="h-4 w-4 rounded border-slate-300 accent-amber-600"
+                            />
+                            <span className="text-sm text-slate-700">{producto.nombre}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-500 rounded-lg border border-slate-200 px-3 py-3">
+                      No hay productos disponibles sin categoría.
+                    </p>
+                  )}
+                </div>
+              )}
+            </form.Field>
+          )}
 
           <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
             <Button

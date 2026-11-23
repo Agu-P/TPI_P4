@@ -13,4 +13,5 @@ export interface CategoriaCreate {
 export interface CategoriaUpdate {
   nombre?: string | null;
   descripcion?: string | null;
+  producto_ids?: number[];
 }

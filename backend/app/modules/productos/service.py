@@ -52,9 +52,10 @@ class ProductoService:
 
     def create(self, data: ProductoCreate) -> ProductoRead:
         with self.uow as uow:
-            cat = uow.categorias.get_by_id(data.categoria_id)
-            if not cat or not cat.activo:
-                raise CategoriaNoEncontrada(f"Categoría {data.categoria_id} inexistente o inactiva")
+            if data.categoria_id is not None:
+                cat = uow.categorias.get_by_id(data.categoria_id)
+                if not cat or not cat.activo:
+                    raise CategoriaNoEncontrada(f"Categoría {data.categoria_id} inexistente o inactiva")
 
             prod = Producto(
                 nombre=data.nombre,
@@ -77,11 +78,14 @@ class ProductoService:
             if not prod or not prod.activo:
                 raise ProductoNoEncontrado(f"Producto {prod_id} no encontrado")
 
-            if data.categoria_id is not None:
-                cat = uow.categorias.get_by_id(data.categoria_id)
-                if not cat or not cat.activo:
-                    raise CategoriaNoEncontrada(f"Categoría {data.categoria_id} inexistente o inactiva")
-                prod.categoria_id = data.categoria_id
+            if "categoria_id" in data.model_fields_set:
+                if data.categoria_id is None:
+                    prod.categoria_id = None
+                else:
+                    cat = uow.categorias.get_by_id(data.categoria_id)
+                    if not cat or not cat.activo:
+                        raise CategoriaNoEncontrada(f"Categoría {data.categoria_id} inexistente o inactiva")
+                    prod.categoria_id = data.categoria_id
 
             if data.nombre is not None:
                 prod.nombre = data.nombre
